@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Öğrenci Evi Gider Sistemi</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f4f6f9;
+      }
+      .ozet-kutu {
+        border-radius: 15px;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .kutu-1 {
+        background: linear-gradient(45deg, #11998e, #38ef7d);
+      }
+      .kutu-2 {
+        background: linear-gradient(45deg, #ff9966, #ff5e62);
+      }
+    </style>
+  </head>
+  <body class="p-4">
+    <div class="container" style="max-width: 800px">
+      <h2 class="text-center mb-4">🏠 Öğrenci Evi Kasa Defteri</h2>
+
+      <div class="row mb-4">
+        <div class="col-6">
+          <div class="ozet-kutu kutu-1">
+            <h5>Toplam Harcama</h5>
+            <h2 id="txtToplam">0.00 TL</h2>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="ozet-kutu kutu-2">
+            <h5>Kişi Başı (3 Kişi)</h5>
+            <h2 id="txtKisiBasi">0.00 TL</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-4 shadow-sm mb-4">
+        <h5>Yeni Harcama Ekle</h5>
+        <div class="row g-2 mt-2">
+          <div class="col-md-5">
+            <input
+              type="text"
+              id="inpAd"
+              class="form-control"
+              placeholder="Örn: Market"
+            />
+          </div>
+          <div class="col-md-3">
+            <input
+              type="number"
+              id="inpTutar"
+              class="form-control"
+              placeholder="Tutar"
+            />
+          </div>
+          <div class="col-md-2">
+            <select id="inpKisi" class="form-select">
+              <option>Ali</option>
+              <option>Ayşe</option>
+              <option>Mehmet</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button onclick="ekle()" class="btn btn-primary w-100">
+              Kaydet
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm p-3">
+        <h5 class="border-bottom pb-2">Harcama Geçmişi</h5>
+        <table class="table table-striped mt-2">
+          <thead>
+            <tr>
+              <th>Harcama</th>
+              <th>Harcayan</th>
+              <th>Tarih</th>
+              <th class="text-end">Tutar</th>
+            </tr>
+          </thead>
+          <tbody id="listeGovdesi"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:3000/api";
+
+      // Sayfa açılınca çalışır
+      window.onload = verileriGetir;
+
+      async function verileriGetir() {
+        // 1. Listeyi Sunucudan Çek
+        const res1 = await fetch(`${API_URL}/harcamalar`);
+        const veriler = await res1.json();
+
+        let htmlKodlari = "";
+        veriler.forEach((veri) => {
+          let tarih = new Date(veri.Tarih).toLocaleDateString("tr-TR");
+          htmlKodlari += `
+                <tr>
+                    <td>${veri.HarcamaAdi}</td>
+                    <td><span class="badge bg-secondary">${veri.HarcayanKisi}</span></td>
+                    <td><small class="text-muted">${tarih}</small></td>
+                    <td class="text-end fw-bold">${veri.Tutar} TL</td>
+                </tr>`;
+        });
+        document.getElementById("listeGovdesi").innerHTML = htmlKodlari;
+
+        // 2. Özeti Sunucudan Çek (Toplam Tutar)
+        const res2 = await fetch(`${API_URL}/ozet`);
+        const ozet = await res2.json();
+
+        document.getElementById("txtToplam").innerText =
+          ozet.toplam.toFixed(2) + " TL";
+        document.getElementById("txtKisiBasi").innerText =
+          ozet.kisiBasi.toFixed(2) + " TL";
+      }
+
+      async function ekle() {
+        const ad = document.getElementById("inpAd").value;
+        const tutar = document.getElementById("inpTutar").value;
+        const kisi = document.getElementById("inpKisi").value;
+
+        if (!ad || !tutar) {
+          alert("Lütfen boş bırakma!");
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_URL}/harcamalar`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ad, tutar, kisi }),
+          });
+
+          if (!res.ok) {
+            throw new Error("Sunucu hatası");
+          }
+
+          alert("✅ Harcama kaydedildi!");
+
+          document.getElementById("inpAd").value = "";
+          document.getElementById("inpTutar").value = "";
+
+          verileriGetir();
+        } catch (err) {
+          alert("❌ Kaydedilemedi! Sunucu veya veritabanı hatası");
+          console.error(err);
+        }
+      }
+    </script>
+  </body>
+</html>
