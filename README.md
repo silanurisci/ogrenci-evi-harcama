@@ -1,24 +1,85 @@
 # 🏠 Öğrenci Evi Harcama Takip Sistemi
 
-Bu proje, aynı evde yaşayan öğrencilerin ortak harcamalarını takip edebilmesi için geliştirilmiş
-basit-orta seviye bir web programlama projesidir. Web programlama dersinde frontend, backend ve
-veritabanı mantığını öğrenmek amacıyla yapılmıştır.
+“Bu ay parayı kim yedi?” tartışmalarına **son vermek** için yapılmış,
+aynı evde yaşayan öğrencilerin ortak harcamalarını takip edebileceği
+basit ama işlevsel bir web uygulamasıdır.
 
-Kullanıcılar harcama ekleyebilir, yapılan harcamaları listeleyebilir, toplam harcamayı ve
-kişi başına düşen tutarı görüntüleyebilir.
+Market, fatura, internet, yemek…  
+Hepsi burada, kim ne harcamış net 😄
 
-Kullanılan teknolojiler: HTML, CSS (Bootstrap), JavaScript, Node.js, Express ve MSSQL.
+---
 
-Projeyi çalıştırmak için: projeyi klonladıktan sonra `npm install` komutu ile gerekli paketler
-yüklenir, ardından `node server.js` komutu ile sunucu çalıştırılır ve tarayıcıdan
-`http://localhost:3000` adresine girilir.
+## 🎯 Bu Proje Ne Yapıyor?
 
-Veritabanında `Harcamalar` adlı bir tablo bulunmaktadır. Bu tabloda harcama adı, tutar,
-harcamayı yapan kişi ve tarih bilgileri tutulmaktadır.
+- Harcama eklemeni sağlıyor
+- Kim harcamış, ne zaman harcamış gösteriyor
+- Toplam ne kadar para gitmiş hesaplıyor
+- Kişi başına düşen tutarı otomatik söylüyor
+- “Ben daha az harcadım” kavgasını bitiriyor 😅
 
-Bu proje, web programlama dersinde backend–frontend–veritabanı bağlantısını kavramak amacıyla
-geliştirilmiştir.
+---
 
-Geliştirici:  
-Sıla Nur İŞCİ  
+## 🛠️ Kullanılan Teknolojiler
+
+**Frontend**
+
+- HTML
+- CSS (Bootstrap)
+- JavaScript (Fetch API)
+
+**Backend**
+
+- Node.js
+- Express.js
+
+**Veritabanı**
+
+- MSSQL (SQL Server)
+
+---
+
+## 🚀 Nasıl Çalıştırılır?
+
+Projeyi bilgisayarına aldıktan sonra terminalde:
+
+```bash
+npm install
+node server.js
+
+Sunucu çalıştıktan sonra tarayıcıdan:
+
+    http://localhost:3000
+
+adresine girmen yeterli.
+
+🗄️ Veritabanı Hakkında
+
+Projede Harcamalar adlı bir tablo kullanılır.
+Bu tabloda:
+
+ - Harcama adı
+
+ - Harcama tutarı
+
+ - Harcamayı yapan kişi
+
+ - Tarih bilgisi
+
+saklanır.
+
+🎓 Proje Amacı
+
+Bu proje, web programlama dersi kapsamında:
+
+ - Frontend & backend bağlantısını öğrenmek
+ - Veritabanı ile çalışan gerçek bir uygulama geliştirmek
+
+amacıyla yapılmıştır.
+
+👩‍💻 Geliştirici
+
+Sıla Nur İŞCİ
 GitHub: https://github.com/silanurisci
+
+Öğrenci evi ekonomisini kurtarmaya çalışan bir yazılımcı 😄
+```
